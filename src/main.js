@@ -1,8 +1,7 @@
 //留个爪印——by薛定谔
-//<<<<<<< HEAD
-//=======
 
-//>>>>>>> 5f070d4a88e1546d2f38c032aca719c9e1e4aeab
+
+
 var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder =require('role.builder');
@@ -17,13 +16,14 @@ var roleBuilder =require('role.builder');
 module.exports.loop = function () {
 //使用对象来运行函数。这里的module.exports.loop已经包含了自动循环的函数
 //tower的运行
-var tower = Game.getObjectById('3b976740568433a5a2b0a2da');
-if(tower) {
-    var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-    if(closestHostile) {
-        tower.attack(closestHostile);
+    var tower = Game.getObjectById('3b976740568433a5a2b0a2da');
+    if(tower) {
+        var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        if(closestHostile) {
+            tower.attack(closestHostile);
+        }
     }
-}
+
     for(var name in Game.creeps) {
     //循环代码虫的名字
         var creep = Game.creeps[name];
@@ -41,7 +41,7 @@ if(tower) {
         if(creep.memory.role == 'builder') {
             roleBuilder.run(creep);
         }
-        }
+    }
     var minHarvester = 6;
     var minUpgrader = 8;
     var minBuilder = 6;
@@ -52,7 +52,6 @@ if(tower) {
       var roomSpawn = Game.spawns[findSpawn];
     }
     var roomSpawnRemaining = roomSpawn.energy;//加入extension
-//<<<<<<< HEAD
 
     //计量扩展的剩余能量
     var extensions =Game.spawns.Factory01.room.find(FIND_MY_STRUCTURES, {
@@ -60,11 +59,9 @@ if(tower) {
     });
     var sumExtension =_.sum(extensions.store);
 
-
     if(roomSpawnRemaining >= 300){//修改条件生产更高效率的代码虫
-        //代码虫部件费用一览：
-        //MOVE是50，WORK是100，CARRY是50，ATTACK是80，RANGED_ATTACK是150，HEAL是250，CLAIM是600，TOUGH是10
-
+    //代码虫部件费用一览：
+    //MOVE是50，WORK是100，CARRY是50，ATTACK是80，RANGED_ATTACK是150，HEAL是250，CLAIM是600，TOUGH是10
 
         var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
         if(harvesters.length < minHarvester) {
@@ -84,32 +81,25 @@ if(tower) {
                     }
                 }
             }
-            if(roomSpawnRemaining >= 300){//修改条件生产更高效率的代码虫
-                var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
-                if(harvesters.length < minHarvester) {
-                    var newNameHarvesters = Game.spawns['Factory01'].createCreep([WORK,WORK,CARRY,MOVE], nameCreeps, {role: 'harvester'});
-                    console.log('正在建造新的开采虫：' + newNameHarvesters);
-                }
+
             if(harvesters.length >= minHarvester) {
                 var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
                 if(upgraders.length < minUpgrader && roomSpawnRemaining + sumExtension >= 500) {//添加条件生产更高效率的代码虫
-                    if(upgraders.length < minUpgrader) {//添加条件生产更高效率的代码虫
-                        var newNameUpgraders = Game.spawns['Factory01'].createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], nameCreeps, {role: 'upgrader'});
-                        console.log('正在建造新的升级虫：' + newNameUpgraders);
-                    }
-                    else {
-                        var newNameUpgraders = Game.spawns['Factory01'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], nameCreeps, {role: 'upgrader'});
-                        console.log('正在建造新的升级虫：' + newNameUpgraders);
-                    }
-                if(upgraders.length >= minUpgrader && roomSpawnRemaining + sumExtension == 400) {
+                    var newNameUpgraders = Game.spawns['Factory01'].createCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE], nameCreeps, {role: 'upgrader'});
+                    console.log('正在建造新的升级虫：' + newNameUpgraders);
+                }
+                else {
+                    var newNameUpgraders = Game.spawns['Factory01'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], nameCreeps, {role: 'upgrader'});
+                    console.log('正在建造新的升级虫：' + newNameUpgraders);
+                }
+                if(upgraders.length >= minUpgrader) {
                     var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
-                    if(builders.length < minBuilder) {//添加条件生产更高效率的代码虫
-                        var newNameBuilders = Game.spawns['Factory01'].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE], nameCreeps, {role: 'builder'});
+                    if(roomSpawnRemaining + sumExtension < 400) {//添加条件生产更高效率的代码虫
+                        var newNameBuilders = Game.spawns['Factory01'].createCreep([WORK,WORK,CARRY,MOVE], nameCreeps, {role: 'builder'});
                         console.log('正在建造新的建造虫：' + newNameBuilders);
                     }
                     else {
-                        var newNameBuilders = Game.spawns['Factory01'].createCreep([WORK,WORK,CARRY,MOVE], nameCreeps, {role: 'builder'});
-                        var newNameBuilders = Game.spawns['Factory01'].createCreep([WORK,WORK,CARRY, CARRY,MOVE, MOVE], nameCreeps, {role: 'builder'});
+                        var newNameBuilders = Game.spawns['Factory01'].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE], nameCreeps, {role: 'builder'});
                         console.log('正在建造新的建造虫：' + newNameBuilders);
                     }
                     //代码虫部件作用一览：
@@ -123,8 +113,6 @@ if(tower) {
                     //CLAIM是殖民部件，装载有CLAIM的代码虫会有500秒的寿命缩减，而且不能被重置。
                     //TOUGH是防御部件，装载有这个部件的代码虫可以获得10点生命值加成，每一个防御部件增加10点生命。
                 }
-                }
-            }
             }
         }
     }
