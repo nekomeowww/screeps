@@ -1,11 +1,11 @@
 var configSpawn = require('config.spawn');
-var actionW51S59Spawn = {
+var actionW27N26Spawn = {
     /** @param {Spawn} spawn **/
         run: function (spawn) {
 
-            var totalHarvester = configSpawn[0].W51S59[0].number + configSpawn[0].W51S59[2].number + configSpawn[0].W51S59[4].number;
-            var totalUpgrader = configSpawn[0].W51S59[6].number + configSpawn[0].W51S59[7].number;
-            var totalBuilder = configSpawn[0].W51S59[8].number + configSpawn[0].W51S59[9].number;
+            var totalHarvester = configSpawn[0].number + configSpawn[1].number;
+            var totalUpgrader = configSpawn[2].number;
+            var totalBuilder = configSpawn[3].number;
             var nameCreeps = undefined;
             var roomEnergy = Game.spawns.Factory01.room.energyAvailable;
 
@@ -47,20 +47,18 @@ var actionW51S59Spawn = {
                 }
 
                 var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
-                if(_.size(harvesters) >= totalHarvester && constructionSites.length > 0) {
-                    if(roomEnergy < 300 && builders.length < totalBuilder) {
+                if(_.size(harvesters) >= totalHarvester && _.size(constructionSites) > 0 && builders.length < totalBuilder) {
+                    if(roomEnergy <= 300) {
                         var newNameBuilders = Game.spawns['Factory01'].createCreep([WORK, CARRY, MOVE], undefined, {role: 'builder'});
-                        console.log('正在建造新的建造虫：' + newNameBuilders + "正在等待建造的建筑数为：" + constructionSites.length);
+                        console.log('正在建造新的建造虫：' + newNameBuilders + "，有" + constructionSites.length + "个建筑正在等待被建造");
                     }
                     else {
                         if(roomEnergy >= 350) {
                             var newNameBuilders = Game.spawns['Factory01'].createCreep([WORK, WORK, CARRY, CARRY, MOVE], undefined, {role: 'builder'});
-                            console.log('正在建造新的建造虫：' + newNameBuilders + " 正在等待建造的建筑数为：" + constructionSites.length);
+                            console.log('正在建造新的建造虫：' + newNameBuilders + "，有" + constructionSites.length + "个建筑正在等待被建造");
                         }
                     }
-
                 }
-
             }
           //代码虫部件作用一览：
           //MOVE是移动部件，每一个MOVE可以在每一个游戏时中减少2点疲劳度下降；CARRY是背包部件，每一个CARRY可以提高50点可以携带能量极限
@@ -75,4 +73,4 @@ var actionW51S59Spawn = {
       }
 }
 
-module.exports = actionW51S59Spawn;
+module.exports = actionW27N26Spawn;
