@@ -4,8 +4,10 @@ var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var actionTower = require('action.tower');
-var actionW51S59Spawn = require('action.W51S59.spawn');
+var actionW27N26Spawn = require('action.W27N26.spawn');
 var configSpawn = require('config.spawn');
+var functionBody = require('function.body');
+var functionRoomProbe = require('function.room.probe');
 
 
     for(var name in Memory.creeps) {
@@ -19,7 +21,8 @@ module.exports.loop = function () {
 //使用对象来运行函数。这里的module.exports.loop已经包含了自动循环的函数
 //tower的运行
     actionTower.run();
-    actionW51S59Spawn.run();
+    actionW27N26Spawn.run();
+    functionBody.run();
     for(var name in Game.creeps) {
     //循环代码虫的名字
         var creep = Game.creeps[name];
@@ -38,5 +41,8 @@ module.exports.loop = function () {
             roleBuilder.run(creep);
         }
     }
-    //console.log(configSpawn[0].W51S59[0].number + configSpawn[0].W51S59[3].number + configSpawn[0].W51S59[5].number);
+    functionBody.run();
+    functionRoomProbe.run('W27N26');
+    //console.log(functionBody.run());
+    //console.log(_.size(Game.spawns.Factory01.room.find(FIND_CONSTRUCTION_SITES)));
 };
